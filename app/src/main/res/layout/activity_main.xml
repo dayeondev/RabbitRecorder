@@ -8,52 +8,22 @@
     tools:context=".MainActivity">
 
 
-    <TextView
-        android:text="RECORD AREA"
-        android:textSize="24sp"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/button_record"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Record"
+        android:onClick="onButtonRecordClicked"
         />
-
 
     <Button
-        android:id="@+id/btnStartRecord"
-        android:text="RECORD"
-        android:layout_width="wrap_content"
+        android:id="@+id/button_play"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Play"
+        android:onClick="onButtonPlayClicked"
         />
 
-
-    <Button
-        android:id="@+id/btnStopRecord"
-        android:text="STOP RECORD"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-
-
-    <TextView
-        android:text="PLAY AREA"
-        android:textSize="24sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-
-
-    <Button
-        android:id="@+id/btnPlay"
-        android:text="PLAY"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-
-
-    <Button
-        android:id="@+id/btnStop"
-        android:text="STOP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
 
 
 
