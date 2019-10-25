@@ -17,6 +17,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,24 +36,41 @@ public class MainActivity extends AppCompatActivity {
     Button buttonRecord;
     Button buttonPlay;
 
+    Record record;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        record = new Record(this);
 
 
+//        initRecorder();
+//        permissionCheck();
+//
+//        callStartRecorder();
+
+    }
+
+    void callStartRecorder(){
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+
+            }
+        };
+
+        Timer timer = new Timer();
+        timer.schedule(timerTask, 0, 5000); // delay: 처음에 몇 초 기다릴지  period: 얼마마다 실행할지
+    }
+
+    void initRecorder(){
         mediaRecorder = new MediaRecorder();
         mediaPlayer = new MediaPlayer();
 
         buttonRecord = (Button) findViewById(R.id.button_record);
         buttonPlay = (Button) findViewById(R.id.button_play);
-
-
-
-        permissionCheck();
-
-
     }
 
     // Recorder Set
@@ -74,18 +94,21 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onButtonRecordClicked(View view) {
-        if(!isRecording){
-            initAudioRecorder();
-            mediaRecorder.start();
-
-            isRecording = true;
-            buttonRecord.setText("Stop Recording");
-        } else{
-            mediaRecorder.stop();
-
-            isRecording = false;
-            buttonRecord.setText("Start Recording");
-        }
+        record.startRecord();
+//        if(!isRecording){
+////            initAudioRecorder();
+////            mediaRecorder.start();
+//            record.startRecord();
+//
+//            isRecording = true;
+////            buttonRecord.setText("Stop Recording");
+//        } else{
+////            mediaRecorder.stop();
+//            record.stopRecord();
+//
+//            isRecording = false;
+////            buttonRecord.setText("Start Recording");
+//        }
 
     }
 
