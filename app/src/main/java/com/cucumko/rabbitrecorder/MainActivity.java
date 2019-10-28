@@ -6,12 +6,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     Button buttonRecord;
     Button buttonPlay;
 
-    Record record;
+    public Record record;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,72 +47,47 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         record = new Record(this);
+        permissionCheck();
 
-
-//        initRecorder();
-//        permissionCheck();
-//
-//        callStartRecorder();
+        callStartRecorder();
 
     }
 
     void callStartRecorder(){
-        TimerTask timerTask = new TimerTask() {
+//        핸들러 참고
+//        https://wowon.tistory.com/95
+        final Handler handler = new Handler(){
             @Override
-            public void run() {
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
                 record.startRecord();
+
             }
         };
 
-        Timer timer = new Timer();
-        timer.schedule(timerTask, 1000, 5000); // delay: 처음에 몇 초 기다릴지  period: 얼마마다 실행할지
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true){
+                    Message message = handler.obtainMessage();
+                    handler.sendMessage(message);
+                    try{
+                        Thread.sleep(5000);
+                    }
+                    catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start();
     }
 
-    void initRecorder(){
-        mediaRecorder = new MediaRecorder();
-        mediaPlayer = new MediaPlayer();
-
-        buttonRecord = (Button) findViewById(R.id.button_record);
-        buttonPlay = (Button) findViewById(R.id.button_play);
-    }
-
-    // Recorder Set
-    void initAudioRecorder(){
-        mediaRecorder.reset();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-
-        mediaPath = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/record.aac";
-        Toast.makeText(this, mediaPath, Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "file path is " + mediaPath);
-        mediaRecorder.setOutputFile(mediaPath);
-        try{
-            mediaRecorder.prepare();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 
 
 
     public void onButtonRecordClicked(View view) {
-        record.startRecord();
-//        if(!isRecording){
-////            initAudioRecorder();
-////            mediaRecorder.start();
-//            record.startRecord();
-//
-//            isRecording = true;
-////            buttonRecord.setText("Stop Recording");
-//        } else{
-////            mediaRecorder.stop();
-//            record.stopRecord();
-//
-//            isRecording = false;
-////            buttonRecord.setText("Start Recording");
-//        }
-
+//        callStartRecorder();
     }
 
     public void onButtonPlayClicked(View view) {
@@ -147,9 +125,6 @@ public class MainActivity extends AppCompatActivity {
         }
         else if(storagePermissionCheck == PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
-        }
-        else{
-
         }
 
 

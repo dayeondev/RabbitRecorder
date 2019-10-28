@@ -8,25 +8,27 @@ import android.util.Log;
 import android.widget.Toast;
 import android.content.ContextWrapper;
 
-public class Record {
+class Record {
 
 
     // 레코더 생성, 저장경로 지정
     private MediaRecorder mediaRecorder = new MediaRecorder();
-    private String mediaPath = "";
+    private String downloadPath;
+    private String mediaPath;
     private Activity activity;
 
 
     private boolean isRecording = false;
     private int fileNum = -1;
 
-    public Record(Activity act){
+    Record(Activity activity){
 
-        activity = act;
+        this.activity = activity;
+        downloadPath = this.activity.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
 
     }
 
-    public void startRecord(){
+    void startRecord(){
 
         this.stopRecord();
 
@@ -38,12 +40,12 @@ public class Record {
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
 
         //숫자 + record.acc로 저장
-        mediaPath = activity.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/"
+        mediaPath = downloadPath + "/record"
                     + String.format("%02d",
                                     ++fileNum <20 ? fileNum: (fileNum=0)
                                 )
-                    + "record.aac";
-        Toast.makeText(activity, mediaPath, Toast.LENGTH_SHORT).show();
+                    + ".aac";
+        Toast.makeText(activity.getApplicationContext(), mediaPath, Toast.LENGTH_SHORT).show();
         mediaRecorder.setOutputFile(mediaPath);
         try{
             mediaRecorder.prepare();
@@ -56,7 +58,7 @@ public class Record {
 
     }
 
-    public  void stopRecord(){
+    private void stopRecord(){
         if(isRecording){
             mediaRecorder.stop();
 //            만약 stop에서 계속 에러가 발생한다면 확인해보자
