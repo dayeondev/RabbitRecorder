@@ -57,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-
+                record.startRecord();
             }
         };
 
         Timer timer = new Timer();
-        timer.schedule(timerTask, 0, 5000); // delay: 처음에 몇 초 기다릴지  period: 얼마마다 실행할지
+        timer.schedule(timerTask, 1000, 5000); // delay: 처음에 몇 초 기다릴지  period: 얼마마다 실행할지
     }
 
     void initRecorder(){
