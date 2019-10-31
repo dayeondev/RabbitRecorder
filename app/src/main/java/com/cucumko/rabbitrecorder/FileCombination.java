@@ -18,41 +18,45 @@ public class FileCombination {
     Activity activity;
 
 
-    String srcDir = activity.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
-    String dstDir = srcDir + "/copy";
+    String srcDir;
+    String dstDir;
 
-    public FileCombination(Activity act){
-        activity = act;
-
+    public FileCombination(){
     }
 
 
-    public void copyDirectory(File sourceLocation, File targetLocation) throws IOException {
-        if(sourceLocation.isDirectory()){
-            if(!targetLocation.exists()){
-                targetLocation.mkdir();
-            }
+    public void copyDirectory(File sourceF, File targetF){
 
-            String[] children = sourceLocation.list();
-            for(int i = 0; i < children.length; i++){
-                copyDirectory(new File(sourceLocation, children[i]),
-                        new File(targetLocation, children[i]));
+        File[] target_file = sourceF.listFiles();
+        for (File file : target_file) {
+            File temp = new File(targetF.getAbsolutePath() + File.separator + file.getName());
+            if(file.isDirectory()){
+                temp.mkdir();
+                copyDirectory(file, temp);
+            } else {
+                FileInputStream fis = null;
+                FileOutputStream fos = null;
+                try {
+                    fis = new FileInputStream(file);
+                    fos = new FileOutputStream(temp);
+                    byte[] b = new byte[4096];
+                    int cnt = 0;
+                    while((cnt=fis.read(b)) != -1){
+                        fos.write(b, 0, cnt);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally{
+                    try {
+                        fis.close();
+                        fos.close();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
             }
         }
-        else{
-            InputStream in = new FileInputStream(sourceLocation);
-            OutputStream out = new FileOutputStream(targetLocation);
-
-            byte[] buf = new byte[1024];
-            int len;
-            while ((len = in.read(buf))>0){
-                out.write(buf, 0, len);
-            }
-            in.close();
-            out.close();
-        }
-
     }
-
 
 }

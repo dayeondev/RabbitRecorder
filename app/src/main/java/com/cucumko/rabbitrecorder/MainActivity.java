@@ -12,7 +12,6 @@ import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -20,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -41,15 +41,22 @@ public class MainActivity extends AppCompatActivity {
 
     public Record record;
 
+    FileCombination fileCombination;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
+
         record = new Record(this);
         permissionCheck();
 
         callStartRecorder();
+        fileCombination = new FileCombination();
+
 
     }
 
@@ -72,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     Message message = handler.obtainMessage();
                     handler.sendMessage(message);
                     try{
-                        Thread.sleep(5000);
+                        Thread.sleep(2000);
                     }
                     catch (InterruptedException e){
                         e.printStackTrace();
@@ -81,8 +88,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         thread.start();
+
     }
 
+    public void onButtonCopyClicked(View view){
+        fileCombination.copyDirectory(new File(record.downloadPath), new File(record.downloadPath + "/../copy"));
+//        fileCombination.copyDirectory(new File(record.downloadPath), new File(record.downloadPath + "/../copy"));
+    }
 
 
 

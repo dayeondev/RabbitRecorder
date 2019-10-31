@@ -7,13 +7,14 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 import android.content.ContextWrapper;
+import android.os.Environment;
 
 class Record {
 
 
     // 레코더 생성, 저장경로 지정
     private MediaRecorder mediaRecorder = new MediaRecorder();
-    private String downloadPath;
+    public String downloadPath;
     private String mediaPath;
     private Activity activity;
 
@@ -25,6 +26,7 @@ class Record {
 
         this.activity = activity;
         downloadPath = this.activity.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+//        downloadPath = Environment.getDataDirectory().getAbsolutePath() + "/RabbitRecorder";
 
     }
 

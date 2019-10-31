@@ -24,6 +24,14 @@
         android:onClick="onButtonPlayClicked"
         />
 
+    <Button
+        android:id="@+id/button_copy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Copy"
+        android:onClick="onButtonCopyClicked"
+        />
+
 
 
 
