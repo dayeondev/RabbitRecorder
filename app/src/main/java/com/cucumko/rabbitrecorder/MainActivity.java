@@ -92,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onButtonCopyClicked(View view){
-        fileCombination.copyDirectory(new File(record.downloadPath), new File(record.downloadPath + "/../copy"));
+        record.nextDirectory();
+//        fileCombination.copyDirectory(new File(record.downloadPath), new File(record.downloadPath + "/../copy"));
 //        fileCombination.copyDirectory(new File(record.downloadPath), new File(record.downloadPath + "/../copy"));
     }
 
