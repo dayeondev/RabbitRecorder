@@ -23,6 +23,7 @@ public class FileCombination {
 
     }
 
+//    https://github.com/Kyborg2011/SoxPlayer/blob/master/src/com/sox/player/SoxPlayerActivity.java
 
 //    public ArrayList LoadFiles(int pathNum){
 //
