@@ -33,8 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private final static String TAG = "MainActivity";
-    private final static int RECORDER_SAMPLERATE = 44100;
-    private final static int RECORDER_BPP = 16;
+    private final int RECORDER_SAMPLERATE = 44100;
+    private final int RECORDER_BPP = 16;
+    private final int bufferSize = 256;
 
 
     MediaRecorder mediaRecorder;
@@ -85,7 +86,8 @@ public class MainActivity extends AppCompatActivity {
             in1 = new FileInputStream(file1);
             in2 = new FileInputStream(file2);
 
-            out = new FileOutputStream(getFilename3());
+//            out = new FileOutputStream(getFilename3());
+            out = new FileOutputStream(record.downloadPath + "/test_taeyang.aac");
 
             totalAudioLen = in1.getChannel().size() + in2.getChannel().size();
             totalDataLen = totalAudioLen + 36;
@@ -205,9 +207,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onButtonCopyClicked(View view){
-        record.nextDirectory();
+//        record.nextDirectory();
 //        fileCombination.copyDirectory(new File(record.downloadPath), new File(record.downloadPath + "/../copy"));
 //        fileCombination.copyDirectory(new File(record.downloadPath), new File(record.downloadPath + "/../copy"));
+        CombineWaveFile(record.downloadPath + "/000/record00.aac", record.downloadPath + "/000/record01.aac");
     }
 
 
