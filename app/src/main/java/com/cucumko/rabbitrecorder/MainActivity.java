@@ -9,7 +9,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.AudioRecord;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -21,10 +20,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -33,10 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private final static String TAG = "MainActivity";
-    private final int RECORDER_SAMPLERATE = 44100;
-    private final int RECORDER_BPP = 16;
-    private final int bufferSize = 256;
-
 
     MediaRecorder mediaRecorder;
     MediaPlayer mediaPlayer;
@@ -64,20 +55,13 @@ public class MainActivity extends AppCompatActivity {
         permissionCheck();
 
         callStartRecorder();
-        fileCombination = new FileCombination(this);
+        fileCombination = new FileCombination();
 
 
     }
 
-//    https://stackoverflow.com/questions/11452464/merging-two-or-more-wav-files-in-android/11452687#11452687
-//    https://stackoverflow.com/questions/18750892/merging-two-wave-files-on-android-concatenate
-
-
-
-
-        void callStartRecorder(){
+    void callStartRecorder(){
 //        핸들러 참고
-//        Timer 사용시 문제가 생겨서 핸들러로 변경하였다.
 //        https://wowon.tistory.com/95
         final Handler handler = new Handler(){
             @Override
@@ -108,10 +92,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onButtonCopyClicked(View view){
-//        record.nextDirectory();
+        fileCombination.copyDirectory(new File(record.downloadPath), new File(record.downloadPath + "/../copy"));
 //        fileCombination.copyDirectory(new File(record.downloadPath), new File(record.downloadPath + "/../copy"));
-//        fileCombination.copyDirectory(new File(record.downloadPath), new File(record.downloadPath + "/../copy"));
-        fileCombination.CombineWaveFile(record.downloadPath + "/000/record00.aac", record.downloadPath + "/000/record01.aac", record.downloadPath);
     }
 
 
