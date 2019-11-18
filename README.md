@@ -1,0 +1,2 @@
+# RabbitRecorder
+Save past conversations.
