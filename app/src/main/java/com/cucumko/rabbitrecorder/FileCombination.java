@@ -28,8 +28,30 @@ public class FileCombination {
         this.activity = activity;
     }
 
+    // downloadPath + "/" + dirNum + "/" + "record" + (file-th) + ".aac"
+    void CombineAllFiles(String downPath, int dirNum, int startNum, int numberOfFiles){
+        for(int i = 0; i < numberOfFiles - 1; i++){
+            CombineWaveFile(
+                    downPath + "/"
+                            + String.format("%03d", dirNum)
+                            + "/record"
+                            + String.format("%02d", (startNum + i) % numberOfFiles)
+                            +  ".aac",
+                    downPath + "/"
+                            + String.format("%03d", dirNum)
+                            + "/record"
+                            + String.format("%02d", (startNum + i + 1) % numberOfFiles)
+                            +  ".aac",
+                    downPath + "/"
+                            + String.format("%03d", dirNum)
+                            + "/record"
+                            + String.format("%02d", (startNum + i + 1) % numberOfFiles)
+                            +  ".aac"
+            );
+        }
+    }
 
-    void CombineWaveFile(String file1, String file2, String downloadPath) {
+    void CombineWaveFile(String file1, String file2, String outputPath) {
         FileInputStream in1 = null, in2 = null;
         FileOutputStream out = null;
         long totalAudioLen = 0;
@@ -45,7 +67,8 @@ public class FileCombination {
             in2 = new FileInputStream(file2);
 
 //            out = new FileOutputStream(getFilename3());
-            out = new FileOutputStream(downloadPath + "/test_taeyang.aac");
+//            out = new FileOutputStream(downloadPath + "/test_taeyang.aac");
+            out = new FileOutputStream(outputPath);
 
             totalAudioLen = in1.getChannel().size() + in2.getChannel().size();
             totalDataLen = totalAudioLen + 36;
