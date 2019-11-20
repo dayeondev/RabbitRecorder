@@ -49,20 +49,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
-
+        // 인스턴스화
         record = new Record(this);
+        fileCombination = new FileCombination(this);
+
+        // 권한 얻기
         permissionCheck();
 
+        //레코드 시작
         callStartRecorder();
-        fileCombination = new FileCombination(this);
+
+
 
 
     }
 
     void callStartRecorder(){
-//        핸들러 참고
-//        https://wowon.tistory.com/95
+        // 핸들러 참고
+        // https://wowon.tistory.com/95
+        // Timer로 시도했으나 오류 발생해서 Handler 사용
         final Handler handler = new Handler(){
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -71,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
-
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -91,6 +95,32 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void onButtonCheckClicked(View view){
+//        Toast.makeText(getApplicationContext(),
+//        fileCombination.CheckRecordedFile(record.downloadPath, 0, 20),
+//                Toast.LENGTH_SHORT
+//        ).show();
+        fileCombination.Check(record.downloadPath, 0, 20);
+//        File checking;
+//        for(int i = 0; i < 20; i++){
+//            checking = new File(
+//                    record.downloadPath + "/"
+//                            + String.format("%03d", 0)
+//                            + "/record"
+//                            + String.format("%02d", i)
+//                            +  ".aac"
+//            );
+//            if(!checking.exists()){  // 파일 없으면
+//                Toast.makeText(getApplicationContext(), Integer.toString(i - 1), Toast.LENGTH_SHORT).show();
+//            }
+//            else{
+//                Toast.makeText(getApplicationContext(), Integer.toString(19), Toast.LENGTH_SHORT).show();
+//            }
+//        }
+
+    }
+
+
     public void onButtonCopyClicked(View view){
 //        fileCombination.copyDirectory(new File(record.downloadPath), new File(record.downloadPath + "/../copy"));
 //        fileCombination.CombineWaveFile(record.downloadPath + "/001/record02.aac", record.downloadPath + "/001/record03.aac", record.downloadPath + "/test_taeyang.aac");
@@ -102,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
     public void onButtonRecordClicked(View view) {
 //        callStartRecorder();
     }
+
 
     public void onButtonPlayClicked(View view) {
         if(!isPlaying){

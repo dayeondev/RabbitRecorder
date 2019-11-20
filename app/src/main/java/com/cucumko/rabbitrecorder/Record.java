@@ -82,6 +82,7 @@ class Record {
 
     }
 
+    // 저장되는 경로 변경
     public void nextDirectory(){
         recordNth++;
     }

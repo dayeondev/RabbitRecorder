@@ -32,6 +32,15 @@
         android:onClick="onButtonCopyClicked"
         />
 
+    <Button
+        android:id="@+id/button_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Check"
+        android:onClick="onButtonCheckClicked"
+        />
+
+
 
 
 

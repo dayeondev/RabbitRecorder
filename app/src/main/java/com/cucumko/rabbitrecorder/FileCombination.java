@@ -28,9 +28,35 @@ public class FileCombination {
         this.activity = activity;
     }
 
+
+    void Check(String downPath, int dirNum,  int numberOfFiles){
+        Toast.makeText(activity.getApplicationContext(),Integer.toString(CheckRecordedFile(downPath, dirNum, numberOfFiles)), Toast.LENGTH_SHORT).show();
+    }
+
+    // 파일 체크
+    int CheckRecordedFile(String downPath, int dirNum,  int numberOfFiles){
+        File checking;
+        for(int i = 0; i < numberOfFiles; i++){
+            checking = new File(
+                    downPath + "/"
+                            + String.format("%03d", dirNum)
+                            + "/record"
+                            + String.format("%02d", i)
+                            +  ".aac"
+            );
+            if(!checking.exists()){  // 파일 없으면
+                return i - 1;
+            }
+        }
+        return 19; // 전부 있으므로 19를 리턴
+    }
+
+
+    // CombineWaveFile로 여러 파일 합치기
     // downloadPath + "/" + dirNum + "/" + "record" + (file-th) + ".aac"
     void CombineAllFiles(String downPath, int dirNum, int startNum, int numberOfFiles){
         for(int i = 0; i < numberOfFiles - 1; i++){
+//        for(int i = 0; i < 2 - 1; i++){
             CombineWaveFile(
                     downPath + "/"
                             + String.format("%03d", dirNum)
@@ -44,13 +70,15 @@ public class FileCombination {
                             +  ".aac",
                     downPath + "/"
                             + String.format("%03d", dirNum)
-                            + "/record"
+                            + "/combine"
                             + String.format("%02d", (startNum + i + 1) % numberOfFiles)
                             +  ".aac"
             );
         }
     }
 
+
+    // 파일 합치기
     void CombineWaveFile(String file1, String file2, String outputPath) {
         FileInputStream in1 = null, in2 = null;
         FileOutputStream out = null;
@@ -65,9 +93,6 @@ public class FileCombination {
         try {
             in1 = new FileInputStream(file1);
             in2 = new FileInputStream(file2);
-
-//            out = new FileOutputStream(getFilename3());
-//            out = new FileOutputStream(downloadPath + "/test_taeyang.aac");
             out = new FileOutputStream(outputPath);
 
             totalAudioLen = in1.getChannel().size() + in2.getChannel().size();
