@@ -55,6 +55,7 @@ public class FileCombination {
     // CombineWaveFile로 여러 파일 합치기
     // downloadPath + "/" + dirNum + "/" + "record" + (file-th) + ".aac"
     void CombineAllFiles(String downPath, int dirNum, int startNum, int numberOfFiles){
+        if(CheckRecordedFile(downPath, dirNum, numberOfFiles) == numberOfFiles - 1) // copy protection
         for(int i = 0; i < numberOfFiles - 1; i++){
 //        for(int i = 0; i < 2 - 1; i++){
             CombineWaveFile(
@@ -74,6 +75,9 @@ public class FileCombination {
                             + String.format("%02d", (startNum + i + 1) % numberOfFiles)
                             +  ".aac"
             );
+        }
+        else{
+            Toast.makeText(activity.getApplicationContext(), "잠시 뒤에 시도하세요.", Toast.LENGTH_SHORT).show();
         }
     }
 
