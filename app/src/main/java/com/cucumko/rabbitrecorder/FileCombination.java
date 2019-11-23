@@ -2,6 +2,7 @@ package com.cucumko.rabbitrecorder;
 
 import android.app.Activity;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
@@ -22,6 +23,10 @@ public class FileCombination {
     private final int RECORDER_SAMPLERATE = 44100;
     private final int RECORDER_BPP = 16;
     private final int bufferSize = 256;
+
+    // CombineAllFiles에서 사용하는 인스턴스
+    private File beforeFileName;
+    private File afterFileName;
 
 
     public FileCombination(Activity activity){
@@ -55,26 +60,33 @@ public class FileCombination {
     // CombineWaveFile로 여러 파일 합치기
     // downloadPath + "/" + dirNum + "/" + "record" + (file-th) + ".aac"
     void CombineAllFiles(String downPath, int dirNum, int startNum, int numberOfFiles){
+        Log.d(this.getClass().getName(), "CombineAllFiles 실행됨");
         if(CheckRecordedFile(downPath, dirNum, numberOfFiles) == numberOfFiles - 1) // copy protection
         for(int i = 0; i < numberOfFiles - 1; i++){
 //        for(int i = 0; i < 2 - 1; i++){
-            CombineWaveFile(
-                    downPath + "/"
-                            + String.format("%03d", dirNum)
-                            + "/record"
-                            + String.format("%02d", (startNum + i) % numberOfFiles)
-                            +  ".aac",
-                    downPath + "/"
-                            + String.format("%03d", dirNum)
-                            + "/record"
-                            + String.format("%02d", (startNum + i + 1) % numberOfFiles)
-                            +  ".aac",
-                    downPath + "/"
-                            + String.format("%03d", dirNum)
-                            + "/combine"
-                            + String.format("%02d", (startNum + i + 1) % numberOfFiles)
-                            +  ".aac"
-            );
+            if(i == 0){ // 첫번째 파일일 경우 파일 명을 combine01로 변경한다.
+                beforeFileName = new File(downPath + "/" + String.format("$03d", dirNum) + "/record" + String.format("%02d", startNum));
+                afterFileName = new File(downPath + "/" + String.format("$03d", dirNum) + "/combine00.acc");
+            }
+            else{
+                CombineWaveFile(
+                        downPath + "/"
+                                + String.format("%03d", dirNum)
+                                + "/combine"
+                                + String.format("%02d", i)
+                                +  ".aac",
+                        downPath + "/"
+                                + String.format("%03d", dirNum)
+                                + "/record"
+                                + String.format("%02d", (startNum + i + 1) % numberOfFiles)
+                                +  ".aac",
+                        downPath + "/"
+                                + String.format("%03d", dirNum)
+                                + "/combine"
+                                + String.format("%02d", i + 1)
+                                +  ".aac"
+                );
+            }
         }
         else{
             Toast.makeText(activity.getApplicationContext(), "잠시 뒤에 시도하세요.", Toast.LENGTH_SHORT).show();

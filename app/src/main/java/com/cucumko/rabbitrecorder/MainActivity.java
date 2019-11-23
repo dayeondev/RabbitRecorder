@@ -122,8 +122,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onButtonCopyClicked(View view){
+        Log.d(this.getClass().getName(), "onButtonCopyClicked 실행됨");
 //        fileCombination.copyDirectory(new File(record.downloadPath), new File(record.downloadPath + "/../copy"));
 //        fileCombination.CombineWaveFile(record.downloadPath + "/001/record02.aac", record.downloadPath + "/001/record03.aac", record.downloadPath + "/test_taeyang.aac");
+
         fileCombination.CombineAllFiles(record.downloadPath, 0, 0, 20);
     }
 
