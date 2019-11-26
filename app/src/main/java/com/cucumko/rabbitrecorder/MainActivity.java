@@ -127,6 +127,14 @@ public class MainActivity extends AppCompatActivity {
 //        fileCombination.CombineWaveFile(record.downloadPath + "/001/record02.aac", record.downloadPath + "/001/record03.aac", record.downloadPath + "/test_taeyang.aac");
 
         fileCombination.CombineAllFiles(record.downloadPath, 0, 0, 20);
+
+
+
+//        fileCombination.CombineWaveFile(
+//                record.downloadPath + "/001/record01.aac",
+//                record.downloadPath + "/001/record02.aac",
+//                record.downloadPath + "/001/combine02.aac"
+//        );
     }
 
 

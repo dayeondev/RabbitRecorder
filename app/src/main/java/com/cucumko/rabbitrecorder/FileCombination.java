@@ -68,11 +68,11 @@ public class FileCombination {
                 beforeFileName = new File(downPath + "/" + String.format("$03d", dirNum) + "/record" + String.format("%02d", startNum));
                 afterFileName = new File(downPath + "/" + String.format("$03d", dirNum) + "/combine00.acc");
             }
-            else{
+
                 CombineWaveFile(
                         downPath + "/"
                                 + String.format("%03d", dirNum)
-                                + "/combine"
+                                + "/record"
                                 + String.format("%02d", i)
                                 +  ".aac",
                         downPath + "/"
@@ -86,7 +86,9 @@ public class FileCombination {
                                 + String.format("%02d", i + 1)
                                 +  ".aac"
                 );
-            }
+//            Toast.makeText(activity.getApplicationContext(), "[테스트] i: " + Integer.toString(i), Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity.getApplicationContext(), "Done!!", Toast.LENGTH_SHORT).show();
+
         }
         else{
             Toast.makeText(activity.getApplicationContext(), "잠시 뒤에 시도하세요.", Toast.LENGTH_SHORT).show();
